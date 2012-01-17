@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LTColumnGridView.h"
 
 @interface FirstViewController : UIViewController
+{
+    LTColumnGridView* _testView;
+}
 
 @end

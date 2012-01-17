@@ -23,6 +23,8 @@
 		52881E7014C5884C00C8303A /* FirstViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52881E6E14C5884C00C8303A /* FirstViewController_iPad.xib */; };
 		52881E7314C5884C00C8303A /* SecondViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52881E7114C5884C00C8303A /* SecondViewController_iPhone.xib */; };
 		52881E7614C5884C00C8303A /* SecondViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52881E7414C5884C00C8303A /* SecondViewController_iPad.xib */; };
+		52881E8114C588BC00C8303A /* LTColumnGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52881E7E14C588BC00C8303A /* LTColumnGridView.m */; };
+		52881E8214C588BC00C8303A /* LTGridViewBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 52881E8014C588BC00C8303A /* LTGridViewBase.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,17 +32,17 @@
 		52881E4B14C5884B00C8303A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		52881E4D14C5884B00C8303A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		52881E4F14C5884B00C8303A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		52881E5314C5884B00C8303A /* LTGridView-Info.plist */ = {isa = PBXFileReference; path = "LTGridView-Info.plist"; sourceTree = "<group>"; };
+		52881E5314C5884B00C8303A /* LTGridView-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LTGridView-Info.plist"; sourceTree = "<group>"; };
 		52881E5514C5884B00C8303A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		52881E5714C5884B00C8303A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		52881E5914C5884C00C8303A /* LTGridView-Prefix.pch */ = {isa = PBXFileReference; path = "LTGridView-Prefix.pch"; sourceTree = "<group>"; };
-		52881E5A14C5884C00C8303A /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		52881E5914C5884C00C8303A /* LTGridView-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LTGridView-Prefix.pch"; sourceTree = "<group>"; };
+		52881E5A14C5884C00C8303A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		52881E5B14C5884C00C8303A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		52881E5D14C5884C00C8303A /* FirstViewController.h */ = {isa = PBXFileReference; path = FirstViewController.h; sourceTree = "<group>"; };
+		52881E5D14C5884C00C8303A /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
 		52881E5E14C5884C00C8303A /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
 		52881E6014C5884C00C8303A /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
 		52881E6214C5884C00C8303A /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
-		52881E6414C5884C00C8303A /* SecondViewController.h */ = {isa = PBXFileReference; path = SecondViewController.h; sourceTree = "<group>"; };
+		52881E6414C5884C00C8303A /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
 		52881E6514C5884C00C8303A /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
 		52881E6714C5884C00C8303A /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
 		52881E6914C5884C00C8303A /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
@@ -48,6 +50,10 @@
 		52881E6F14C5884C00C8303A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/FirstViewController_iPad.xib; sourceTree = "<group>"; };
 		52881E7214C5884C00C8303A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SecondViewController_iPhone.xib; sourceTree = "<group>"; };
 		52881E7514C5884C00C8303A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SecondViewController_iPad.xib; sourceTree = "<group>"; };
+		52881E7D14C588BC00C8303A /* LTColumnGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTColumnGridView.h; sourceTree = "<group>"; };
+		52881E7E14C588BC00C8303A /* LTColumnGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTColumnGridView.m; sourceTree = "<group>"; };
+		52881E7F14C588BC00C8303A /* LTGridViewBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGridViewBase.h; sourceTree = "<group>"; };
+		52881E8014C588BC00C8303A /* LTGridViewBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGridViewBase.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,7 +73,8 @@
 		52881E3C14C5884B00C8303A = {
 			isa = PBXGroup;
 			children = (
-				52881E5114C5884B00C8303A /* LTGridView */,
+				52881E7C14C588BC00C8303A /* Library */,
+				52881E5114C5884B00C8303A /* Demo */,
 				52881E4A14C5884B00C8303A /* Frameworks */,
 				52881E4814C5884B00C8303A /* Products */,
 			);
@@ -91,7 +98,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		52881E5114C5884B00C8303A /* LTGridView */ = {
+		52881E5114C5884B00C8303A /* Demo */ = {
 			isa = PBXGroup;
 			children = (
 				52881E5A14C5884C00C8303A /* AppDelegate.h */,
@@ -110,6 +117,7 @@
 				52881E7414C5884C00C8303A /* SecondViewController_iPad.xib */,
 				52881E5214C5884B00C8303A /* Supporting Files */,
 			);
+			name = Demo;
 			path = LTGridView;
 			sourceTree = "<group>";
 		};
@@ -122,6 +130,17 @@
 				52881E5914C5884C00C8303A /* LTGridView-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		52881E7C14C588BC00C8303A /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				52881E7D14C588BC00C8303A /* LTColumnGridView.h */,
+				52881E7E14C588BC00C8303A /* LTColumnGridView.m */,
+				52881E7F14C588BC00C8303A /* LTGridViewBase.h */,
+				52881E8014C588BC00C8303A /* LTGridViewBase.m */,
+			);
+			path = Library;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -197,6 +216,8 @@
 				52881E5C14C5884C00C8303A /* AppDelegate.m in Sources */,
 				52881E5F14C5884C00C8303A /* FirstViewController.m in Sources */,
 				52881E6614C5884C00C8303A /* SecondViewController.m in Sources */,
+				52881E8114C588BC00C8303A /* LTColumnGridView.m in Sources */,
+				52881E8214C588BC00C8303A /* LTGridViewBase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -240,5 +240,36 @@
     }*/
 }
 
+#pragma mark - for subclass override
+
+- (void)gridViewInit
+{
+    [self doesNotRecognizeSelector:_cmd];
+}
+
+- (CGSize)gridViewContentSize
+{
+    [self doesNotRecognizeSelector:_cmd];
+    return CGSizeZero;
+}
+
+- (CGRect)gridViewFrameWithIndex:(NSUInteger)index
+{
+    [self doesNotRecognizeSelector:_cmd];
+    return CGRectZero;
+}
+
+- (NSArray*)gridViewToShowIndexes
+{
+     [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
+- (NSUInteger)gridViewReuseableViewMaxCount
+{
+    [self doesNotRecognizeSelector:_cmd];
+    return 1;
+}
+
 
 @end

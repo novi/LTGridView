@@ -31,7 +31,28 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    
+    _testView = [[LTColumnGridView alloc] initWithFrame:self.view.bounds];
+    _testView.viewClass = [UILabel class];
+    [self.view addSubview:_testView];
+    
+    _testView.itemCount = 100;
+    
+    
+    _testView.viewData = ^(LTGridViewBase* wview, NSUInteger i){
+        
+        UILabel* label = (id)[wview dequeueReuseableView];
+        if (!label) {
+            label = [[UILabel alloc] initWithFrame:CGRectZero];
+            label.textAlignment = UITextAlignmentCenter;
+            label.font = [UIFont systemFontOfSize:28.0f];
+            
+        }
+        
+        label.text = [NSString stringWithFormat:@"%d", i];
+        return label;
+    };
+    
 }
 
 - (void)viewDidUnload
