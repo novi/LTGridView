@@ -11,4 +11,9 @@
 
 @interface LTColumnGridView : LTGridViewBase
 
+@property (nonatomic) CGSize itemSize;
+@property (nonatomic) NSUInteger columnCount;
+@property (nonatomic) CGFloat xSpace;
+@property (nonatomic) CGFloat ySpace;
+
 @end

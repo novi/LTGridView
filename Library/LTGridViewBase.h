@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 
+#define kLTGridViewBackgroundDebug (0)
+#define kLTGridViewLogDebug (0)
+
 @class LTGridViewBase;
 
 typedef UIView* (^LTGridViewViewDataBlock)(LTGridViewBase* selfView, NSUInteger itemIndex);

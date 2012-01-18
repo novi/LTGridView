@@ -21,6 +21,11 @@
 
 @implementation LTColumnGridView
 
+@synthesize itemSize = _itemSize;
+@synthesize columnCount = _colCount;
+@synthesize xSpace = _xSpace;
+@synthesize ySpace = _vSpace;
+
 -(void)gridViewInit
 {
     _colCount = 3;
@@ -85,7 +90,7 @@
     
     for (int i = itemIndex; i < itemIndex + (_colCount*yCount); i++) {
         CGRect f = [self gridViewFrameWithIndex:i];
-        if (CGRectIntersectsRect(f, visibleFrame)) {
+        if (self.itemCount > i && CGRectIntersectsRect(f, visibleFrame)) {
             [indexes addObject:[NSNumber numberWithUnsignedInteger:i]];
         }
     }

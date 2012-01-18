@@ -8,8 +8,7 @@
 
 #import "LTGridViewBase.h"
 
-#define kLTGridViewBackgroundDebug (1)
-#define kLTGridViewLogDebug (1)
+
 
 @interface LTGridViewBase()
 {
@@ -36,6 +35,8 @@
         self.pagingEnabled = NO;
         self.showsHorizontalScrollIndicator = NO;
         self.showsVerticalScrollIndicator = YES;
+        self.alwaysBounceVertical = YES;
+        self.alwaysBounceHorizontal = NO;
         self.backgroundColor = [UIColor clearColor];
         self.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
         
