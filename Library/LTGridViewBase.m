@@ -27,6 +27,7 @@
 @synthesize itemCount = _itemCount;
 @synthesize viewData;
 @synthesize viewClass = _viewClass;
+@synthesize layoutBlock;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -39,6 +40,7 @@
         self.alwaysBounceHorizontal = NO;
         self.backgroundColor = [UIColor clearColor];
         self.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+        self.contentSize = frame.size;
         
         _reuseableViews = [[NSMutableArray alloc] initWithCapacity:5];
         _frameChanged = YES;
@@ -239,6 +241,10 @@
         _frameChanged = NO;
         [self _createAndLayoutViews];
     }*/
+    
+    if (layoutBlock) {
+        layoutBlock(self);
+    }
 }
 
 #pragma mark - for subclass override

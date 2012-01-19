@@ -15,11 +15,13 @@
 @class LTGridViewBase;
 
 typedef UIView* (^LTGridViewViewDataBlock)(LTGridViewBase* selfView, NSUInteger itemIndex);
+typedef void (^LTGridViewAdditionalLayoutBlock)(LTGridViewBase* selfView);
 
 @interface LTGridViewBase : UIScrollView
 
 @property (nonatomic) NSUInteger itemCount;
 @property (nonatomic, copy) LTGridViewViewDataBlock viewData;
+@property (nonatomic, copy) LTGridViewAdditionalLayoutBlock layoutBlock;
 @property (nonatomic, assign) Class viewClass;
 
 -(UIView*)dequeueReuseableView;

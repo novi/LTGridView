@@ -68,7 +68,7 @@
     NSInteger itemRow = floor((offs.y - (_itemSize.height+_vSpace) / 2) / (_itemSize.height+_vSpace)) + 1;
     NSInteger itemIndex = itemRow*_colCount;
     
-    NSLog(@"row=%d, %d,%d", row, itemRow, itemIndex);
+    NSLog(@"page=%d, row=%d, item=%d", row, itemRow, itemIndex);
     if (itemIndex < 0) {
         itemIndex = 0;
     }
@@ -84,8 +84,8 @@
     NSUInteger yCount = (pageHeight+_vSpace)/(_itemSize.height+_vSpace);
     yCount += _colCount;
     
-    if (itemIndex >= 3) {
-        itemIndex -= 3;
+    if (itemIndex >= _colCount) {
+        itemIndex -= _colCount;
     }
     
     for (int i = itemIndex; i < itemIndex + (_colCount*yCount); i++) {
@@ -101,7 +101,7 @@
 -(CGSize)gridViewContentSize
 {
     NSUInteger itemCount = self.itemCount;
-    NSUInteger rowIndex = itemCount == 0 ? 0 : itemCount / _colCount;
+    NSUInteger rowIndex = itemCount == 0 ? 0 : (itemCount-1) / _colCount;
     
     return CGSizeMake(self.frame.size.width, (rowIndex+1)*(_itemSize.height+_vSpace) - _vSpace);
 }
