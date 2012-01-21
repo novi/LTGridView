@@ -24,10 +24,10 @@
 
 @implementation LTGridViewBase
 
-@synthesize itemCount = _itemCount;
-@synthesize viewData;
 @synthesize viewClass = _viewClass;
-@synthesize layoutBlock;
+@synthesize layoutSubviewsEnabled;
+@synthesize gridViewDelegate;
+@synthesize itemCount = _itemCount;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -45,6 +45,7 @@
         _reuseableViews = [[NSMutableArray alloc] initWithCapacity:5];
         _frameChanged = YES;
         _viewClass = NULL;
+        self.layoutSubviewsEnabled = YES;
         
         [self gridViewInit];
         
@@ -63,9 +64,10 @@
 
 #pragma mark -
 
--(void)setItemCount:(NSUInteger)itemCount
+
+-(void)itemCountUpdated
 {
-    _itemCount = itemCount;
+    _itemCount = [self.gridViewDelegate gridViewItemCount:self];
     _contentsUpdated = YES;
     [self setNeedsLayout];
 }
@@ -104,11 +106,25 @@
 	[_reuseableViews addObject:view];
 }
 
+
+-(NSArray *)visibleViews
+{
+    NSMutableArray* views = [[NSMutableArray alloc] initWithCapacity:self.subviews.count];
+    
+    for (UIView* view in self.subviews) {
+        // Only specified view class
+        if ([view isKindOfClass:_viewClass]) {
+            [views addObject:view];
+        }
+    }
+    return views;
+}
+
 #pragma mark - View preparation
 
 - (UIView*)_prepareViewWithIndex:(NSUInteger)index
 {
-    UIView* view = self.viewData(self, index);
+    UIView* view = [self.gridViewDelegate gridView:self viewForItemIndex:index];
     //view.frame = [self _viewFrameWithIndex:index];
     view.tag = index; // view's tag is the index
     
@@ -224,8 +240,12 @@
 
 -(void)layoutSubviews
 {
-    [super layoutSubviews];
+    //[super layoutSubviews];
     BOOL contentsUpdated = _contentsUpdated;
+    
+    if (!self.layoutSubviewsEnabled) {
+        return;
+    }
     
     if (_contentsUpdated) {
         [self _updatedContentSize];
@@ -242,8 +262,8 @@
         [self _createAndLayoutViews];
     }*/
     
-    if (layoutBlock) {
-        layoutBlock(self);
+    if ([self.gridViewDelegate respondsToSelector:@selector(gridViewLayoutSubviews:)]) {
+        [self.gridViewDelegate gridViewLayoutSubviews:self];
     }
 }
 

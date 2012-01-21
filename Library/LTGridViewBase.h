@@ -14,18 +14,30 @@
 
 @class LTGridViewBase;
 
-typedef UIView* (^LTGridViewViewDataBlock)(LTGridViewBase* selfView, NSUInteger itemIndex);
-typedef void (^LTGridViewAdditionalLayoutBlock)(LTGridViewBase* selfView);
+
+@protocol LTGridViewDelegate <NSObject>
+
+@required
+- (NSUInteger)gridViewItemCount:(LTGridViewBase*)gridView;
+- (UIView*)gridView:(LTGridViewBase*)gridView viewForItemIndex:(NSUInteger)index;
+
+@optional
+- (void)gridViewLayoutSubviews:(LTGridViewBase*)gridView;
+
+@end
 
 @interface LTGridViewBase : UIScrollView
 
-@property (nonatomic) NSUInteger itemCount;
-@property (nonatomic, copy) LTGridViewViewDataBlock viewData;
-@property (nonatomic, copy) LTGridViewAdditionalLayoutBlock layoutBlock;
 @property (nonatomic, assign) Class viewClass;
+@property (nonatomic) BOOL layoutSubviewsEnabled;
+@property (nonatomic, assign) id<LTGridViewDelegate> gridViewDelegate;
+@property (nonatomic, readonly) NSUInteger itemCount;
 
--(UIView*)dequeueReuseableView;
+- (void)itemCountUpdated;
+- (UIView*)dequeueReuseableView;
+- (NSArray*)visibleViews;
 
+// for subclass overriding
 - (void)gridViewInit;
 - (CGSize)gridViewContentSize;
 - (CGRect)gridViewFrameWithIndex:(NSUInteger)index;
