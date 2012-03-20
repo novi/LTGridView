@@ -18,7 +18,11 @@
     BOOL _frameChanged;
     BOOL _contentsUpdated;
     Class _viewClass;
+    BOOL _editing;
+    BOOL _editingAnimation;
 }
+
+- (UIView*)_prepareViewWithIndex:(NSUInteger)index;
 
 @end
 
@@ -28,6 +32,8 @@
 @synthesize layoutSubviewsEnabled;
 @synthesize gridViewDelegate;
 @synthesize itemCount = _itemCount;
+
+@synthesize editing = _editing;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -64,12 +70,44 @@
 
 #pragma mark -
 
+-(void)setEditing:(BOOL)editing
+{
+    [self setEditing:editing animated:NO];
+    
+}
 
--(void)itemCountUpdated
+-(void)setEditing:(BOOL)editing animated:(BOOL)animated
+{
+    if ((_editing && !editing) || (!_editing && editing)) {
+        _editing = editing;
+        _editingAnimation = animated;
+        [self setNeedsLayout];
+    }
+}
+
+
+-(void)reloadData
 {
     _itemCount = [self.gridViewDelegate gridViewItemCount:self];
     _contentsUpdated = YES;
     [self setNeedsLayout];
+}
+
+-(void)reloadDataWithIndex:(NSUInteger)index
+{
+    for (UIView* view in self.visibleViews) {
+        if (view.tag == index) {
+            // has view of index
+            // remove current view
+            [self enQueueReuseableView:view];
+            // create new view updated
+            UIView* newone = [self _prepareViewWithIndex:index];
+            newone.frame = view.frame;
+            [self insertSubview:newone aboveSubview:view];
+            [view removeFromSuperview];
+            break;
+        }
+    }
 }
 
 #pragma mark - Reuseable View
@@ -102,7 +140,7 @@
     NSLog(@"%s:%d", __func__, _reuseableViews.count);
 #endif
 
-	view.frame = CGRectZero;
+	//view.frame = CGRectZero;
 	[_reuseableViews addObject:view];
 }
 
@@ -135,6 +173,53 @@
     return view;
 }
 
+- (UIButton*)_prepareDeleteButtonWithIndex:(NSUInteger)index
+{
+    UIButton* button;
+    
+    for (UIButton* btn in [self.subviews reverseObjectEnumerator]) {
+        if ([btn isKindOfClass:[UIButton class]]) {
+            if (btn.tag == index) {
+                [btn removeFromSuperview];
+                button = btn;
+                break;
+            }
+        }
+    }
+    
+    if (!button) {
+        button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [button addTarget:self action:@selector(_deleteButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
+        button.frame = CGRectMake(0, 0, 32, 32);
+    }
+    
+    button.tag = index;
+    [button setTitle:[NSString stringWithFormat:@"%d", index] forState:UIControlStateNormal];
+    
+    if (_editingAnimation) {
+        button.alpha = 0.0;
+    } else {
+        button.alpha = 1.0;
+    }
+    
+    return button;
+}
+
+- (void)_removeDeleteButtonWithIndex:(NSUInteger)index
+{
+    // remove delete buttons
+    for (UIButton* button in [self.subviews reverseObjectEnumerator]) {
+        if ([button isKindOfClass:[UIButton class]]) {
+            if (button.tag == index) {
+                [button removeFromSuperview];
+#if kLTGridViewLogDebug
+                NSLog(@"Delete button removed: %d", index);
+#endif
+                break;
+            }
+        }
+    }
+}
 
 - (void)_createAndLayoutViews
 {
@@ -196,8 +281,34 @@
     
     for (UIView* removeView in removeViews) {
         [self enQueueReuseableView:removeView];
+        [self _removeDeleteButtonWithIndex:removeView.tag];
         [removeView removeFromSuperview];
     }
+    
+    if (_contentsUpdated) {
+        for (UIButton* button in [self.subviews reverseObjectEnumerator]) {
+            if ([button isKindOfClass:[UIButton class]]) {
+                [button removeFromSuperview];
+            }
+        }
+    }
+    
+    /*
+    // Editing support (delete buttons)
+    NSMutableArray* removeDeleteButtonIndexes = [NSMutableArray array];
+    for (UIButton* button in self.subviews) {
+        if ([button isKindOfClass:[UIButton class]]) {
+            NSNumber* index = [NSNumber numberWithUnsignedInteger:button.tag];
+            if (! [toShowIndexes containsObject:index]) {
+                [removeDeleteButtonIndexes addObject:index];
+            }
+        }
+    }
+    for (NSNumber* index in removeDeleteButtonIndexes) {
+        [self _removeDeleteButtonWithIndex:[index unsignedIntegerValue]];
+    }
+    */
+    
     
     for (NSNumber* indexObj in toShowIndexes) {
         NSUInteger index = [indexObj unsignedIntegerValue];
@@ -205,12 +316,46 @@
         [self addSubview:view];
         [self bringSubviewToFront:view];
     }
-    
     for (UIView* view in self.subviews) {
         if ([view isKindOfClass:_viewClass]) {
             view.frame = [self gridViewFrameWithIndex:view.tag];
+            
+            if (self.editing) {
+                UIButton* button = [self _prepareDeleteButtonWithIndex:view.tag];
+                [self insertSubview:button aboveSubview:view];
+                button.center = view.frame.origin;
+            }
         }
     }
+    
+    // Editing support
+    if (self.editing && _editingAnimation) {
+        [UIView animateWithDuration:0.3 animations:^{
+            for (UIButton* button in self.subviews) {
+                if ([button isKindOfClass:[UIButton class]]) {
+                    button.alpha = 1.0;
+                    _editingAnimation = NO;
+                }
+            }
+        }];
+    } else if (!self.editing && _editingAnimation) {
+        [UIView animateWithDuration:0.3 animations:^{
+            for (UIButton* button in self.subviews) {
+                if ([button isKindOfClass:[UIButton class]]) {
+                    button.alpha = 0.0;
+                    _editingAnimation = NO;
+                }
+            }
+        } completion:^(BOOL finished) {
+            for (UIButton* button in self.subviews) {
+                if ([button isKindOfClass:[UIButton class]]) {
+                    [button removeFromSuperview];
+                }
+            }
+        }];
+    }
+    
+    
 }
 
 - (void)_updatedContentSize
@@ -264,6 +409,13 @@
     
     if ([self.gridViewDelegate respondsToSelector:@selector(gridViewLayoutSubviews:)]) {
         [self.gridViewDelegate gridViewLayoutSubviews:self];
+    }
+}
+
+- (void)_deleteButtonSelected:(UIButton*)button
+{
+    if ([self.gridViewDelegate respondsToSelector:@selector(gridView:deleteButtonTappedWithIndex:)]) {
+        [self.gridViewDelegate gridView:self deleteButtonTappedWithIndex:button.tag];
     }
 }
 

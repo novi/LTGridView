@@ -23,19 +23,24 @@
 
 @optional
 - (void)gridViewLayoutSubviews:(LTGridViewBase*)gridView;
+- (void)gridView:(LTGridViewBase*)gridView deleteButtonTappedWithIndex:(NSUInteger)index;
 
 @end
 
 @interface LTGridViewBase : UIScrollView
 
-@property (nonatomic, assign) Class viewClass;
+@property (nonatomic, assign) Class viewClass; // you can not use UIButton and its subclass
 @property (nonatomic) BOOL layoutSubviewsEnabled;
 @property (nonatomic, assign) id<LTGridViewDelegate> gridViewDelegate;
 @property (nonatomic, readonly) NSUInteger itemCount;
+@property (nonatomic) BOOL editing;
 
-- (void)itemCountUpdated;
+- (void)reloadData;
 - (UIView*)dequeueReuseableView;
 - (NSArray*)visibleViews;
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated;
+- (void)reloadDataWithIndex:(NSUInteger)index;
 
 // for subclass overriding
 - (void)gridViewInit;

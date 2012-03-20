@@ -68,7 +68,7 @@
     NSInteger itemRow = floor((offs.y - (_itemSize.height+_vSpace) / 2) / (_itemSize.height+_vSpace)) + 1;
     NSInteger itemIndex = itemRow*_colCount;
     
-    NSLog(@"page=%d, row=%d, item=%d", row, itemRow, itemIndex);
+    //NSLog(@"page=%d, row=%d, item=%d", row, itemRow, itemIndex);
     if (itemIndex < 0) {
         itemIndex = 0;
     }
