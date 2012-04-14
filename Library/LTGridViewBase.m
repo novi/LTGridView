@@ -188,13 +188,14 @@
     }
     
     if (!button) {
-        button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setImage:[UIImage imageNamed:@"grid_deletebutton.png"] forState:UIControlStateNormal];
         [button addTarget:self action:@selector(_deleteButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
         button.frame = CGRectMake(0, 0, 32, 32);
     }
     
     button.tag = index;
-    [button setTitle:[NSString stringWithFormat:@"%d", index] forState:UIControlStateNormal];
+    //[button setTitle:[NSString stringWithFormat:@"%d", index] forState:UIControlStateNormal];
     
     if (_editingAnimation) {
         button.alpha = 0.0;
