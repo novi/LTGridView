@@ -9,9 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "LTColumnGridView.h"
 
-@interface FirstViewController : UIViewController
+@interface FirstViewController : UIViewController<LTGridViewDelegate>
 {
     LTColumnGridView* _testView;
+    NSUInteger _count;
 }
+
+- (IBAction)update:(id)sender;
+@property (weak, nonatomic) IBOutlet UISlider *countSlider;
+
 
 @end

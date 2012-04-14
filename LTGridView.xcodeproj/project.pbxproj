@@ -169,7 +169,7 @@
 		52881E3E14C5884B00C8303A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 			};
 			buildConfigurationList = 52881E4114C5884B00C8303A /* Build configuration list for PBXProject "LTGridView" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -355,6 +355,7 @@
 				52881E7B14C5884C00C8303A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

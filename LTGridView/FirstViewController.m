@@ -9,6 +9,7 @@
 #import "FirstViewController.h"
 
 @implementation FirstViewController
+@synthesize countSlider = _countSlider;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -34,30 +35,20 @@
     
     _testView = [[LTColumnGridView alloc] initWithFrame:self.view.bounds];
     _testView.viewClass = [UILabel class];
-    [self.view addSubview:_testView];
+    _testView.gridViewDelegate = self;
+    [self.view insertSubview:_testView atIndex:0];
     
-    _testView.itemCount = 100;
+    [_testView reloadData];
     
-    
-    _testView.viewData = ^(LTGridViewBase* wview, NSUInteger i){
-        
-        UILabel* label = (id)[wview dequeueReuseableView];
-        if (!label) {
-            label = [[UILabel alloc] initWithFrame:CGRectZero];
-            label.textAlignment = UITextAlignmentCenter;
-            label.font = [UIFont systemFontOfSize:28.0f];
-            
-        }
-        
-        label.text = [NSString stringWithFormat:@"%d", i];
-        return label;
-    };
+    srandom(self);
     
 }
 
 - (void)viewDidUnload
 {
+    [self setCountSlider:nil];
     [super viewDidUnload];
+    _testView = nil;
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
@@ -91,5 +82,35 @@
         return YES;
     }
 }
+
+- (IBAction)update:(id)sender
+{
+    _count = self.countSlider.value;
+    NSLog(@"count = %d", _count);
+    
+    [_testView reloadData];
+}
+
+#pragma mark -
+
+-(UIView *)gridView:(LTGridViewBase *)gridView viewForItemIndex:(NSUInteger)index
+{
+    UILabel* label = (id)[_testView dequeueReuseableView];
+    if (!label) {
+        label = [[UILabel alloc] initWithFrame:CGRectZero];
+        label.textAlignment = UITextAlignmentCenter;
+        label.font = [UIFont systemFontOfSize:28.0f];
+        label.backgroundColor = [UIColor colorWithHue:(random()%100)*1.0/100.0 saturation:.5 brightness:1 alpha:1];
+    }
+    
+    label.text = [NSString stringWithFormat:@"%d", index];
+    return label;
+}
+
+-(NSUInteger)gridViewItemCount:(LTGridViewBase *)gridView
+{
+    return _count;
+}
+
 
 @end
