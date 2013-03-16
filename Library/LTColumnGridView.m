@@ -11,9 +11,6 @@
 @interface LTColumnGridView()
 {
     NSUInteger _colCount;
-    CGSize _itemSize;
-    CGFloat _vSpace;
-    CGFloat _xSpace;
     //UIEdgeInsets _displayInset; // only bottom and right
 }
 
@@ -21,16 +18,19 @@
 
 @implementation LTColumnGridView
 
-@synthesize itemSize = _itemSize;
 @synthesize columnCount = _colCount;
-@synthesize xSpace = _xSpace;
-@synthesize ySpace = _vSpace;
+
+-(void)setColumnCount:(NSUInteger)columnCount
+{
+    _colCount = columnCount;
+    [self setNeedsLayout];
+}
 
 -(void)gridViewInit
 {
     _colCount = 3;
     _itemSize = CGSizeMake(160, 100);
-    _vSpace = 50;
+    _ySpace = 50;
     _xSpace = 30;
     //_displayInset = UIEdgeInsetsMake(0, 50, 0, 50);
 }
@@ -50,7 +50,7 @@
     CGFloat widthAll = _itemSize.width*_colCount + _xSpace * (_colCount-1);
     CGFloat xOffs = (bounds.size.width - widthAll) * 0.5;
     
-    CGRect f = CGRectMake(xOffs + _itemSize.width*colIndex + _xSpace * colIndex , rowIndex*(_itemSize.height+_vSpace), _itemSize.width, _itemSize.height);
+    CGRect f = CGRectMake(xOffs + _itemSize.width*colIndex + _xSpace * colIndex , rowIndex*(_itemSize.height+_ySpace), _itemSize.width, _itemSize.height);
     
     return CGRectIntegral(CGRectOffset(f, contentFrame.origin.x, contentFrame.origin.y));
 }
@@ -65,7 +65,7 @@
     CGRect visibleFrame = CGRectMake(offs.x, offs.y, self.bounds.size.width, self.bounds.size.height);
     
     NSInteger row = floor((offs.y - pageHeight / 2) / pageHeight) + 1;
-    NSInteger itemRow = floor((offs.y - (_itemSize.height+_vSpace) / 2) / (_itemSize.height+_vSpace)) + 1;
+    NSInteger itemRow = floor((offs.y - (_itemSize.height+_ySpace) / 2) / (_itemSize.height+_ySpace)) + 1;
     NSInteger itemIndex = itemRow*_colCount;
     
     //NSLog(@"page=%d, row=%d, item=%d", row, itemRow, itemIndex);
@@ -81,7 +81,7 @@
      }
      }*/
     
-    NSUInteger yCount = (pageHeight+_vSpace)/(_itemSize.height+_vSpace);
+    NSUInteger yCount = (pageHeight+_ySpace)/(_itemSize.height+_ySpace);
     yCount += _colCount;
     
     if (itemIndex >= _colCount) {
@@ -103,7 +103,7 @@
     NSUInteger itemCount = self.itemCount;
     NSUInteger rowIndex = itemCount == 0 ? 0 : (itemCount-1) / _colCount;
     
-    return CGSizeMake(self.frame.size.width, (rowIndex+1)*(_itemSize.height+_vSpace) - _vSpace);
+    return CGSizeMake(self.frame.size.width, (rowIndex+1)*(_itemSize.height+_ySpace) - _ySpace);
 }
 
 -(NSUInteger)gridViewReuseableViewMaxCount

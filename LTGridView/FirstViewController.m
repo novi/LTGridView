@@ -38,7 +38,12 @@
     _testView.gridViewDelegate = self;
     [self.view insertSubview:_testView atIndex:0];
     
-    [_testView reloadData];
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
+        _testView.itemSize = CGSizeMake(50, 50);
+    }
+        
+    self.countSlider.value = 50;
+    [self update:nil];
     
     srandom(self);
     
@@ -75,12 +80,16 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    return YES;
+}
+
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
+        _testView.columnCount = 5;
     } else {
-        return YES;
-    }
+        _testView.columnCount = 3;
+    }    
 }
 
 - (IBAction)update:(id)sender

@@ -11,13 +11,10 @@
 
 
 @interface LTGridViewBase()
-{
-    NSUInteger _itemCount;
-    
+{    
     NSMutableArray* _reuseableViews;
     BOOL _frameChanged;
     BOOL _contentsUpdated;
-    Class _viewClass;
     BOOL _editing;
     BOOL _editingAnimation;
 }
@@ -27,11 +24,6 @@
 @end
 
 @implementation LTGridViewBase
-
-@synthesize viewClass = _viewClass;
-@synthesize layoutSubviewsEnabled;
-@synthesize gridViewDelegate;
-@synthesize itemCount = _itemCount;
 
 @synthesize editing = _editing;
 
